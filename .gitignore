@@ -1,3 +1,4 @@
+*.swp
 .sconsign.dblite
 config.log
 .sconf_temp
@@ -5,17 +6,22 @@ config.log
 *.os
 *.so
 *.cfgc
-*.pyc
 *_wrap.cc
-*Lib.py
 
 # Built by sconsUtils
 version.py
-bin/
 
-# Pytest
+# Python
+__pycache__
 tests/.tests
 pytest_session.txt
 .cache/
 .pytest_cache
 .coverage
+.eggs
+*.egg-info
+*.pyc
+*Lib.py
+
+# OSPL
+ospl*log
