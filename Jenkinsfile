@@ -1,8 +1,11 @@
 pipeline{
+    parameters {
+        string defaultValue: 'develop', description: 'The version of the DevelopEnvironment Docker image to use for the build.', name: 'DevEnvImage', trim: true
+    }
     agent{
         docker {
             alwaysPull true
-            image 'lsstts/develop-env:develop'
+            image 'lsstts/develop-env:${DevEnvImage}'
             args "-u root --entrypoint=''"
         }
     }
