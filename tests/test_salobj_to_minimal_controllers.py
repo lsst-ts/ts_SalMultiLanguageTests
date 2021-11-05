@@ -44,10 +44,10 @@ class SalObjToMinimalControllerTestCase(unittest.IsolatedAsyncioTestCase):
         self.index = next(index_gen)
 
     async def test_cpp_controller(self) -> None:
-        await self.check_minimal_controller("minimal_cpp_controller.py")
+        await self.check_minimal_controller("minimal_cpp_controller.sh")
 
     async def test_java_controller(self) -> None:
-        await self.check_minimal_controller("minimal_java_controller.py")
+        await self.check_minimal_controller("minimal_java_controller.sh")
 
     async def test_salobj_controller(self) -> None:
         await self.check_minimal_controller("minimal_salobj_controller.py")
