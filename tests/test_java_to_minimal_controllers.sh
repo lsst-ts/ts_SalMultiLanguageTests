@@ -2,17 +2,18 @@
 
 passed=9
 failed=0
+path=$(dirname $0)
 
 echo "############# Begin Java Tests #############"
-./run_test.sh java cpp
+$path/run_test.sh java cpp
 ((failed=$failed+$?))
 echo ""
 
-./run_test.sh java java
+$path/run_test.sh java java
 ((failed=$failed+$?))
 echo ""
 
-./run_test.sh java salobj
+$path/run_test.sh java salobj
 ((failed=$failed+$?))
 echo ""
 

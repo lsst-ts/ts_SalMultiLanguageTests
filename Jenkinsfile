@@ -73,11 +73,11 @@ pipeline{
                     pytest -ra -o junit_family=xunit2 --junitxml=tests/results/results.xml
                     status=0
                     tests/test_cpp_to_minimal_controllers.sh
-                    status=$(($status + $? ))
+                    status=\$((\$status + \$? ))
                     tests/test_java_to_minimal_controllers.sh
-                    status=$(($status + $? ))
+                    status=\$((\$status + \$? ))
                     echo "====== Unit testing complete ======"
-                    exit $status
+                    exit \$status
                     """ 
                 }
             }   
