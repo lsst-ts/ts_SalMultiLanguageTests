@@ -21,7 +21,9 @@ pipeline{
                     sh """
                     source /home/saluser/.setup_dev.sh
                     pip install -e . 
-                    pytest -ra -k salobj_con -o junit_family=xunit2 --junitxml=tests/results/results.xml
+                    pytest -ra -o junit_family=xunit2 --junitxml=tests/results/results.xml
+                    tests/test_cpp_to_minimal_controllers.sh
+                    tests/test_java_to_minimal_controllers.sh
                     echo "====== Unit testing complete ======"
                     """ 
                 }
