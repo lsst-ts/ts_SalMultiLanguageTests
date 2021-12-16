@@ -5,6 +5,9 @@ pipeline{
     parameters {
         string defaultValue: 'develop', description: 'The version of the Docker image to use for the build.', name: 'image_version', trim: true
     }
+    options {
+        disableConcurrentBuilds()
+    }
     agent {
         docker {
             image 'ts-dockerhub.lsst.org/salobj:$image_version'
@@ -63,21 +66,15 @@ pipeline{
         }//BuildTestCSC
         stage("Run the Unit Tests") {
             steps {
-                 withEnv(["HOME=${env.WORKSPACE}"]) {
+                 withEnv(["HOME=/home/saluser"]) {
                     sh """
-                    ls /home/saluser/repos/ts_SalMultiLanguageTests/tests/controllers
+                    ls $HOME/repos/ts_SalMultiLanguageTests/tests/controllers
                     set +x
-                    source /home/saluser/.setup.sh
+                    source $HOME/.setup.sh
                     set -x
                     pip install -e . 
                     pytest -ra -o junit_family=xunit2 --junitxml=tests/results/results.xml
-                    status=0
-                    tests/test_cpp_to_minimal_controllers.sh
-                    status=\$((\$status + \$? ))
-                    tests/test_java_to_minimal_controllers.sh
-                    status=\$((\$status + \$? ))
                     echo "====== Unit testing complete ======"
-                    exit \$status
                     """ 
                 }
             }   
