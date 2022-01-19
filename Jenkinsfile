@@ -47,7 +47,6 @@ pipeline{
                     cp -r $HOME/repos/ts_xml/sal_interfaces/Test/Test*.xml $HOME/repos/ts_sal/test
                     cp -r $HOME/repos/ts_xml/sal_interfaces/SALSubsystems.xml $HOME/repos/ts_sal/test
                     cp -r $HOME/repos/ts_xml/sal_interfaces/SALGenerics.xml $HOME/repos/ts_sal/test
-                    cp -r $HOME/repos/ts_xml/VERSION $HOME/repos/ts_sal/test
                     echo 'Validate and IDL'
                     make_idl_files.py --keep Test
                     echo 'C++'
