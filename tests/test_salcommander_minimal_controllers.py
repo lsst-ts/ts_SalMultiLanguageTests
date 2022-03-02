@@ -26,6 +26,7 @@ import pathlib
 import warnings
 
 from lsst.ts import salobj
+from lsst.ts import utils
 
 # Long enough to perform any reasonable operation
 # including starting a CSC or loading a script (seconds)
@@ -33,7 +34,7 @@ STD_TIMEOUT = 60
 
 INITIAL_LOG_LEVEL = 20
 
-index_gen = salobj.index_generator()
+index_gen = utils.index_generator()
 
 
 class Language(enum.Enum):
