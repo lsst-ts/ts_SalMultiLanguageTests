@@ -75,9 +75,9 @@ class MinimalSalobjController(salobj.Controller):
         print(
             f"SalobjController: writing initial logLevel.level={self.evt_logLevel.data.level} event"
         )
-        self.evt_logLevel.write()
+        await self.evt_logLevel.write()
 
-    def do_setLogLevel(self, data):
+    async def do_setLogLevel(self, data):
         print(
             f"SalobjController: read setLogLevel(cmdid={data.private_seqNum}; "
             f"level={data.level})"
@@ -87,8 +87,8 @@ class MinimalSalobjController(salobj.Controller):
             f"SalobjController: writing logLevel={data.level} event "
             "and the same value in scalars.int0 telemetry"
         )
-        self.evt_logLevel.set_write(level=data.level)
-        self.tel_scalars.set_write(int0=data.level)
+        await self.evt_logLevel.set_write(level=data.level)
+        await self.tel_scalars.set_write(int0=data.level)
         if data.level == 0:
             print("SalobjController: quitting")
             asyncio.create_task(self.close())
