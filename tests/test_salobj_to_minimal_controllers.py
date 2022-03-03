@@ -70,7 +70,9 @@ class SalObjToMinimalControllerTestCase(unittest.IsolatedAsyncioTestCase):
             ) as remote:
                 remote.salinfo.log.addHandler(logging.StreamHandler())
 
-                exec_path = pathlib.Path(__file__).parent.absolute() / "controllers" / exec_name
+                exec_path = (
+                    pathlib.Path(__file__).parent.absolute() / "controllers" / exec_name
+                )
                 assert exec_path.is_file()
                 print(f"salobj Remote: start {exec_path} in a subprocess")
                 process = await asyncio.create_subprocess_exec(
