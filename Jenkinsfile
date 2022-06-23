@@ -71,7 +71,7 @@ pipeline{
                     set +x
                     source $HOME/.setup.sh
                     set -x
-                    pip install -e . 
+                    pip install . 
                     pytest -ra -o junit_family=xunit2 --junitxml=tests/results/results.xml
                     echo "====== Unit testing complete ======"
                     """ 
