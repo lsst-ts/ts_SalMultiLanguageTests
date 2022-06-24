@@ -11,16 +11,11 @@ urls = { documentation = "https://jira.lsstcorp.org/secure/Dashboard.jspa", repo
 dynamic = [ "version" ]
 dependencies = []
 
-[tools.setuptools]
-package-data = {"" = "*.csv"}
-
 [tool.setuptools.dynamic]
 version = { attr = "setuptools_scm.get_version" }
 
 [tool.setuptools.packages.find]
 where = [ "python" ]
-
-[project.scripts]
 
 [tool.setuptools_scm]
 write_to = "python/lsst/ts/SalMultiLanguageTests/version.py"

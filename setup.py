@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# This file is part of ts_IntegrationTests.
+# This file is part of ts_SalMultiLanguageTests.
 #
 # Developed for the Vera Rubin Observatory Telescope and Site Systems.
 # This product includes software developed by the LSST Project
