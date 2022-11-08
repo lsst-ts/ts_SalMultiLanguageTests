@@ -20,6 +20,7 @@ pipeline{
         user_ci = credentials('lsst-io')
         LTD_USERNAME="${user_ci_USR}"
         LTD_PASSWORD="${user_ci_PSW}"
+        
     }
     stages{
         stage("Build Test CSC libraries") {
@@ -44,9 +45,9 @@ pipeline{
                     git pull
                     cd test
                     echo 'Copy XML files'
-                    cp -r $HOME/repos/ts_xml/sal_interfaces/Test/Test*.xml $HOME/repos/ts_sal/test
-                    cp -r $HOME/repos/ts_xml/sal_interfaces/SALSubsystems.xml $HOME/repos/ts_sal/test
-                    cp -r $HOME/repos/ts_xml/sal_interfaces/SALGenerics.xml $HOME/repos/ts_sal/test
+                    cp -r \${TS_XML_DIR}/python/lsst/ts/xml/data/sal_interfaces/Test/Test*.xml $HOME/repos/ts_sal/test
+                    cp -r \${TS_XML_DIR}/python/lsst/ts/xml/data/sal_interfaces/SALSubsystems.xml $HOME/repos/ts_sal/test
+                    cp -r \${TS_XML_DIR}/python/lsst/ts/xml/data/sal_interfaces/SALGenerics.xml $HOME/repos/ts_sal/test
                     echo 'Validate and IDL'
                     make_idl_files.py --keep Test
                     echo 'C++'
