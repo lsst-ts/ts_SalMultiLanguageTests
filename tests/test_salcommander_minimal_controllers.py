@@ -50,7 +50,7 @@ class SalCommanderToMinimalControllerTestCase(unittest.TestCase):
         salobj.set_random_lsst_dds_partition_prefix()
         self.index = next(index_gen)
 
-    def get_langauge_variables(self, language: Language) -> None:
+    def get_langauge_variables(self, language: Language) -> tuple:
         """Get the language specific test values;
         either cpp (C++) or java (Java).
 
@@ -113,14 +113,16 @@ class SalCommanderToMinimalControllerTestCase(unittest.TestCase):
             print(f"{language.name} Commander: wait for completion")
             commander_process.wait()
             commander_output = commander_process.communicate()[0]
-            commander_output = commander_output.decode("utf-8")
+            commander_output_str = commander_output.decode("utf-8")
             assert commander_process.returncode == 0
             print(f"{language.name} Controller: wait for completion")
             controller_process.wait()
             controller_output = controller_process.communicate()[0]
-            controller_output = controller_output.decode("utf-8")
+            controller_output_str = controller_output.decode("utf-8")
             print(f"{language.name} Commander: read initial logLevel")
-            self.assertIn(str(initial_log) + str(INITIAL_LOG_LEVEL), commander_output)
+            self.assertIn(
+                str(initial_log) + str(INITIAL_LOG_LEVEL), commander_output_str
+            )
 
             for level in (10, 52, 0):
                 print(
@@ -128,11 +130,11 @@ class SalCommanderToMinimalControllerTestCase(unittest.TestCase):
                 )
                 self.assertIn(
                     f"Commmander:  send setLogLevel(level={level}) command",
-                    commander_output,
+                    commander_output_str,
                 )
                 print(f"{language.name} Controller: write logLevel={level} event")
                 self.assertIn(
-                    f"Controller: writing logLevel={level} event", controller_output
+                    f"Controller: writing logLevel={level} event", controller_output_str
                 )
 
         print("Ensure Commander and Controller processes are terminated")
