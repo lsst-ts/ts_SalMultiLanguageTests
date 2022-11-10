@@ -10,8 +10,31 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
-v0.4.1
+v3.0.0
 ------
-* Added Jenkinsfile for conda recipe
-* Added conda recipe
-* Incorporated new offset parameters with the option of them being persistent (sticky)
+* Converted package to pyproject.toml.
+* Updated paths to XML files.
+* Updated Python version in .github/workflows/lint.yaml.
+
+v2.2.0
+------
+* Updated to conform to SalObj7.
+    * The index_generator method was moved to ts_utils.
+    * The put method renamed to write.
+    * Black formatting.
+    
+v2.1.1
+------
+* Fixed the build parameter reference in the agent block in Jenkinsfile.
+
+v2.1.0
+------
+* Removed VERSION file.
+
+v2.0.0
+------
+* Converted the C++ and Java shell script 'unit-tests' to Python unit-tests.
+
+v1.0.0
+------
+* Initial release.
