@@ -11,7 +11,7 @@ pipeline{
     agent {
         docker {
             image 'ts-dockerhub.lsst.org/salobj:' + params.image_version
-            args '-u root --entrypoint="" ' +
+            args '--entrypoint="" ' +
             '-e LSST_DDS_PARTITION_PREFIX=citest -v ${WORKSPACE}:' + HOME + '/repos/ts_SalMultiLanguageTests '
             label 'Node1_4CPU || Node3_4CPU'
          }
@@ -81,11 +81,6 @@ pipeline{
         }
     }
     post{
-       always {
-            withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh 'chown -R 1003:1003 $HOME/'
-            }
-       }
        cleanup {
             deleteDir()
         }
