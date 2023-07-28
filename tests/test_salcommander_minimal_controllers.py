@@ -61,40 +61,62 @@ class SalCommanderToMinimalControllerTestCase(unittest.TestCase):
         """
         return {
             Language.CPP: ("minimal_cpp_commander.sh", "initial_log_level="),
-            Language.JAVA: ("minimal_java_commander.sh", "initial logLevel.level "),
+            Language.JAVA: (
+                "minimal_java_commander.sh",
+                "initial logLevel.level "
+            ),
         }[language]
 
     def test_cpp_controller(self) -> None:
         for language in Language:
             with self.subTest(language=language):
-                self.check_minimal_controller(language, "minimal_cpp_controller.sh")
+                self.check_minimal_controller(
+                    language,
+                    "minimal_cpp_controller.sh"
+                )
 
     def test_java_controller(self) -> None:
         for language in Language:
             with self.subTest(language=language):
-                self.check_minimal_controller(language, "minimal_java_controller.sh")
+                self.check_minimal_controller(
+                    language,
+                    "minimal_java_controller.sh"
+                )
 
     def test_salobj_controller(self) -> None:
         for language in Language:
             with self.subTest(language=language):
-                self.check_minimal_controller(language, "minimal_salobj_controller.py")
+                self.check_minimal_controller(
+                    language,
+                    "minimal_salobj_controller.py"
+                )
 
-    def check_minimal_controller(self, language: Language, exec_name: str) -> None:
+    def check_minimal_controller(
+        self, language: Language, exec_name: str
+    ) -> None:
         # Start the Commander before the Controller subprocess
         # to be sure the Commander sees telemetry from the Controller
         # (telemetry is volatile, so has no historical data).
         commander, initial_log = self.get_langauge_variables(language)
-        commander_path = pathlib.Path(__file__).home() / "repos/ts_sal/bin" / commander
+        commander_path = (
+            pathlib.Path(__file__).home() /
+            "repos/ts_sal/bin" /
+            commander
+        )
         assert commander_path.is_file()
         controller_path = (
-            pathlib.Path(__file__).parent.absolute() / "controllers" / exec_name
+            pathlib.Path(__file__).parent.absolute() /
+            "controllers" /
+            exec_name
         )
         assert controller_path.is_file()
         print(
-            f"{language.name} Commander: start {commander_path} with index={self.index} in a subprocess"
+            f"{language.name} Commander: start {commander_path} with index="
+            f"{self.index} in a subprocess"
         )
         print(
-            f"{language.name} Controller: start {controller_path} with index={self.index} in a subprocess"
+            f"{language.name} Controller: start {controller_path} with index="
+            f"{self.index} in a subprocess"
         )
         with subprocess.Popen(
             [
@@ -125,15 +147,18 @@ class SalCommanderToMinimalControllerTestCase(unittest.TestCase):
 
             for level in (10, 52, 0):
                 print(
-                    f"{language.name} Commander: send setLogLevel(level={level}) command"
+                    f"{language.name} Commander: send setLogLevel(level="
+                    f"{level}) command"
                 )
                 self.assertIn(
                     f"Commmander:  send setLogLevel(level={level}) command",
                     commander_output_str,
                 )
-                print(f"{language.name} Controller: write logLevel={level} event")
+                print(f"{language.name} Controller: write logLevel="
+                      f"{level} event")
                 self.assertIn(
-                    f"Controller: writing logLevel={level} event", controller_output_str
+                    f"Controller: writing logLevel={level} event",
+                    controller_output_str
                 )
 
         print("Ensure Commander and Controller processes are terminated")
@@ -147,7 +172,8 @@ class SalCommanderToMinimalControllerTestCase(unittest.TestCase):
         if controller_process.returncode is None:
             controller_process.terminate()
             warnings.warn(
-                "Killed the Controller process that was not properly terminated"
+                "Killed the Controller process that was not"
+                " properly terminated"
             )
         else:
             print(f"{language.name} Controller: done")
