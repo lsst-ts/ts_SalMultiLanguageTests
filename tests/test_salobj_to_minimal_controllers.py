@@ -70,7 +70,8 @@ class SalObjToMinimalControllerTestCase(unittest.IsolatedAsyncioTestCase):
                 remote.salinfo.log.addHandler(logging.StreamHandler())
 
                 exec_path = (
-                    pathlib.Path(__file__).parent.absolute() / "controllers" / exec_name
+                    pathlib.Path(__file__).parent.absolute() / "controllers" / 
+                    exec_name
                 )
                 assert exec_path.is_file()
                 print(f"salobj Remote: start {exec_path} in a subprocess")
@@ -83,11 +84,13 @@ class SalObjToMinimalControllerTestCase(unittest.IsolatedAsyncioTestCase):
                     data = await remote.evt_logLevel.next(
                         flush=False, timeout=STD_TIMEOUT
                     )
-                    print(f"salobj Remote: read initial logLevel.level={data.level}")
+                    print(f"salobj Remote: read initial logLevel.level="
+                          f"{data.level}")
                     assert data.level == INITIAL_LOG_LEVEL
 
                     for level in (10, 52, 0):
-                        print(f"salobj Remote: send setLogLevel(level={level}) command")
+                        print(f"salobj Remote: send setLogLevel(level={level})"
+                              f"command")
                         ackcmd = await remote.cmd_setLogLevel.set_start(
                             level=level, timeout=STD_TIMEOUT
                         )
