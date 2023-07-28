@@ -55,9 +55,19 @@ class MinimalSalobjController(salobj.Controller):
     @classmethod
     def make_from_cmd_line(cls):
         """Make an instance from the command line."""
-        parser = argparse.ArgumentParser("Run a minimal Salobj Test controller")
-        parser.add_argument("index", type=int, help="Script SAL Component index")
-        parser.add_argument("initial_log_level", type=int, help="Initial log level")
+        parser = argparse.ArgumentParser(
+            "Run a minimal Salobj Test controller"
+        )
+        parser.add_argument(
+            "index",
+            type=int,
+            help="Script SAL Component index"
+        )
+        parser.add_argument(
+            "initial_log_level",
+            type=int,
+            help="Initial log level"
+        )
         args = parser.parse_args()
         return MinimalSalobjController(
             index=args.index, initial_log_level=args.initial_log_level
@@ -73,7 +83,8 @@ class MinimalSalobjController(salobj.Controller):
         """Finish construction."""
         await self.salinfo.start()
         print(
-            f"SalobjController: writing initial logLevel.level={self.evt_logLevel.data.level} event"
+            f"SalobjController: writing initial logLevel.level="
+            f"{self.evt_logLevel.data.level} event"
         )
         await self.evt_logLevel.write()
 
