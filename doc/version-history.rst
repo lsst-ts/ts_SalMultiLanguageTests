@@ -10,6 +10,10 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+v3.2.0
+------
+* Converted package to use ts_pre_commit_conf.
+
 v3.1.0
 ------
 * Removed the root user workaround from the Jenkinsfile.
