@@ -26,3 +26,7 @@ pytest_session.txt
 
 # OSPL
 ospl*log
+.pre-commit-config.yaml
+.flake8
+.isort.cfg
+.mypy.ini
