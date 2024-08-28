@@ -44,6 +44,9 @@ pipeline{
                     /home/saluser/.checkout_repo.sh develop
                     git pull
                     cd test
+                    echo 'Log EnvVars'
+                    echo 'PATH: \$PATH'
+                    echo 'LD_LIBRARY_PATH: \$LD_LIBRARY_PATH'
                     echo 'Copy XML files'
                     cp -r \${TS_XML_DIR}/python/lsst/ts/xml/data/sal_interfaces/Test/Test*.xml $HOME/repos/ts_sal/test
                     cp -r \${TS_XML_DIR}/python/lsst/ts/xml/data/sal_interfaces/SALSubsystems.xml $HOME/repos/ts_sal/test
