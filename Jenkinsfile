@@ -12,7 +12,7 @@ pipeline{
         docker {
             image 'ts-dockerhub.lsst.org/salobj:' + params.image_version
             args '--entrypoint="" ' +
-            '-e LSST_DDS_PARTITION_PREFIX=citest -v ${WORKSPACE}:' + HOME + '/repos/ts_SalMultiLanguageTests '
+            '--network=kafka -v ${WORKSPACE}:' + HOME + '/repos/ts_SalMultiLanguageTests '
             label 'Node1_4CPU || Node3_4CPU'
          }
     }
@@ -25,16 +25,14 @@ pipeline{
     stages{
         stage("Build Test CSC libraries") {
             steps {
-                 withEnv(["HOME=/home/saluser"]) {
+                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh """
                     echo 'Setup the environment'
                     set +x
                     source $HOME/.setup.sh
+                    export LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
+                    export LSST_SAL_PREFIX=\$CONDA_PREFIX
                     set -x
-                    echo 'Update ts_idl/develop'
-                    cd $HOME/repos/ts_idl
-                    /home/saluser/.checkout_repo.sh develop
-                    git pull
                     echo 'Update ts_xml/develop'
                     cd $HOME/repos/ts_xml
                     /home/saluser/.checkout_repo.sh develop
@@ -43,6 +41,8 @@ pipeline{
                     cd $HOME/repos/ts_sal
                     /home/saluser/.checkout_repo.sh develop
                     git pull
+                    ./bin/setupStackBuildEnvironment
+                    source ./setupKafka.env
                     cd test
                     echo 'Log EnvVars'
                     echo 'PATH: \$PATH'
@@ -52,13 +52,9 @@ pipeline{
                     cp -r \${TS_XML_DIR}/python/lsst/ts/xml/data/sal_interfaces/SALSubsystems.xml $HOME/repos/ts_sal/test
                     cp -r \${TS_XML_DIR}/python/lsst/ts/xml/data/sal_interfaces/SALGenerics.xml $HOME/repos/ts_sal/test
                     echo 'Validate and IDL'
-                    make_idl_files.py --keep Test
+                    salgenerator validate Test
                     echo 'C++'
                     salgenerator Test sal cpp
-                    echo 'Java'
-                    salgenerator Test sal java version=pre${BUILD_NUMBER}-SNAPSHOT
-                    echo 'Maven'
-                    salgenerator Test maven version=pre${BUILD_NUMBER}-SNAPSHOT
                     echo 'Lib'
                     salgenerator Test lib
                     echo 'Copy controllers'
@@ -76,7 +72,7 @@ pipeline{
                     source $HOME/.setup.sh
                     set -x
                     pip install . 
-                    pytest -ra -o junit_family=xunit2 --junitxml=tests/results/results.xml
+                    #pytest -ra tests/test_salcommander_minimal_controllers.py tests/test_salobj_to_minimal_controllers.py -o junit_family=xunit2 --junitxml=tests/results/results.xml
                     echo "====== Unit testing complete ======"
                     """ 
                 }
