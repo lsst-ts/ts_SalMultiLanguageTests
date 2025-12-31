@@ -12,7 +12,10 @@ pipeline{
         docker {
             image 'ts-dockerhub.lsst.org/salobj:' + params.image_version
             args '--entrypoint="" ' +
-            '--network=kafka -v ${WORKSPACE}:' + HOME + '/repos/ts_SalMultiLanguageTests '
+            '-e LSST_USE_KAFKA=true ' +
+            '-e LSST_KAFKA_BROKER_ADDR=${env.LSST_KAFKA_BROKER_ADDR} -e LSST_SCHEMA_REGISTRY_URL=${env.LSST_SCHEMA_REGISTRY_URL} ' +
+            '-e LSST_KAFKA_HOST=${env.LSST_KAFKA_HOST} -e LSST_KAFKA_BROKER_PORT=${env.LSST_KAFKA_BROKER_PORT} ' +
+            '-v ${WORKSPACE}:' + HOME + '/repos/ts_SalMultiLanguageTests '
             label 'Node1_4CPU || Node3_4CPU'
          }
     }
@@ -20,7 +23,11 @@ pipeline{
         user_ci = credentials('lsst-io')
         LTD_USERNAME="${user_ci_USR}"
         LTD_PASSWORD="${user_ci_PSW}"
-        
+        LSST_TOPIC_SUBNAME = "${SUBNAME}"
+        LSST_KAFKA_HOST = "35.85.18.232"
+        LSST_KAFKA_BROKER_PORT = "9092"
+        LSST_KAFKA_BROKER_ADDR = "35.85.18.232:9092"
+        LSST_SCHEMA_REGISTRY_URL = "http://35.85.18.232:8081"        
     }
     stages{
         stage("Build Test CSC libraries") {
